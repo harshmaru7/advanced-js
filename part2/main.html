@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JSON Test</title>
+</head>
+<body>
+    <div id="myData"></div>
+    <script>
+    //  fetch('https://api.github.com/search/repositories?q=harsh&_limit=10')
+    // .then(response => response.json())
+    // .then(data => console.log(data));
+    fetch('https://api.github.com/search/repositories?q=harsh')
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+    InsightData(data);
+    })
+    .catch(function (err) {
+    console.log('error: ' + err);
+});
+    function InsightData(data ){
+
+         var mainContainer = document.getElementById("myData");
+     for (var i = 0; i < 5; i++) {
+            var div = document.createElement("div");
+            div.innerHTML = 'name: ' + data.items[i].name;
+            var divx = document.createElement("div");
+            divx.innerHTML = 'score: ' + data.items[i].score;
+            var divy = document.createElement("div");
+            divy.innerHTML = 'full name: ' + data.items[i].full_name;
+            var divpriv = document.createElement("div");
+            divpriv.innerHTML = "private: " + data.items[i].private;
+            var divowner = document.createElement("div");
+            divowner.innerHTML = 'login: ' + data.items[i].owner.login;
+            var linb = document.createElement("div");
+            linb.innerHTML = '-------------------------------------';
+
+            fetch(`https://api.github.com/users/${data.items[i].owner.login}/following`)
+            .then(response => response.json())
+            .then(datax => console.log(datax.length))
+            
+            fetch(`https://api.github.com/users/${data.items[i].owner.login}/followers`)
+            .then(response => response.json())
+            .then(dataxy => console.log(dataxy.length));
+
+
+            // fetch(`https://api.github.com/repos/${data.items[i].full_name}/branches`)
+            // // fetch(`${data.items[i].branches_url}`)
+            // .then(response => response.json())
+            // .then(datab => console.log(datab.length));
+
+            mainContainer.appendChild(div);
+            mainContainer.appendChild(divx);
+            mainContainer.appendChild(divy);
+            mainContainer.appendChild(divpriv);
+            mainContainer.appendChild(divowner);
+            mainContainer.appendChild(linb);
+     }
+    // console.log(data.items[0]);
+    }
+    
+
+    </script>
+</body>
+</html>

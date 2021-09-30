@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JSON Test</title>
+</head>
+<body>
+    <div id="myData"></div>
+    <script>
+    fetch('https://api.github.com/search/repositories?q=harsh')
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+    InsightData(data);
+    })
+    .catch(function (err) {
+    console.log('error: ' + err);
+});
+    function InsightData(data ){
+
+         var mainContainer = document.getElementById("myData");
+     for (var i = 0; i < 5; i++) {
+            var div = document.createElement("div");
+            div.innerHTML = 'name: ' + data.items[i].name;
+            var divx = document.createElement("div");
+            divx.innerHTML = 'score: ' + data.items[i].score;
+            var divy = document.createElement("div");
+            divy.innerHTML = 'full name: ' + data.items[i].full_name;
+            var divpriv = document.createElement("div");
+            divpriv.innerHTML = "private: " + data.items[i].private;
+            var divowner = document.createElement("div");
+            divowner.innerHTML = 'login: ' + data.items[i].owner.login;
+            var linb = document.createElement("div");
+            linb.innerHTML = '-------------------------------------';
+
+            fetch('${data.items[i].followers_url}')
+            .then(response => response.json())
+            .then(datax => console.log("WAHAATA"););
+    
+            mainContainer.appendChild(div);
+            mainContainer.appendChild(divx);
+            mainContainer.appendChild(divy);
+            mainContainer.appendChild(divpriv);
+            mainContainer.appendChild(divowner);
+            mainContainer.appendChild(linb);
+     }
+    // console.log(data.items[0]);
+    }
+
+
+
+    fetch('https://api.github.com/search/repositories?q=harsh')
+    .then(function(response) { 
+    return response.json()
+    })
+    .then(function(data) {   
+    // do stuff with `data`, call second `fetch`
+    console.log(data.item[0])
+    return fetch(data.anotherUrl)
+    })
+    .then(function(response) { 
+    return response.json(); 
+    })
+    .then(function(data) {
+    // do stuff with `data`
+    })
+    .catch(function(error) { 
+    console.log('Requestfailed', error) 
+    });
+
+
+
+
+
+
+
+
+
+
+
+    
+
+    </script>
+</body>
+</html>
