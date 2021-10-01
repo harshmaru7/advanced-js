@@ -14,6 +14,7 @@
 	<div id="fullname"></div>
 	<div id="priv"></div>
 	<div id="loginx"></div>
+	<div id="license"></div>
 	<div id="followers"></div>
 	<div id="following"></div>
 	<div id="branches"></div>
@@ -49,11 +50,14 @@ fetch(`https://api.github.com/search/repositories?q=${queried}`).then(function (
 	document.getElementById('loginx').textContent =  "login: " +post.items[i].owner.login;
 	document.getElementById('followers').textContent = "Followers: " +userData.length;
 	console.log("name: " +post.items[i].name,"\nscore: " +post.items[i].score,"\nfull name: " +post.items[0].full_name,"\nprivate: " + post.items[0].private,"\nlogin: " + post.items[0].owner.login,"\nFollowers: " +userData.length);
-	// if ( post.items[0].license != null){
-    //         console.log('license: ' + posts.items[0].license.name);
-    // if(){
-    //         console.log('license: ' + posts.items[0].license);
-    //     }
+	 if ( post.items[0].license === "null"){
+		document.getElementById('license').textContent =  "license: null" ;     
+		console.log('license: ' + post.items[i].license);
+	 }
+    else{
+		document.getElementById('license').textContent =  "license: " +post.items[i].license.name;     
+		console.log('license: ' + post.items[i].license.name);
+         }
 	//  return fetch('https://api.github.com/users/bookcasey/following');
 	// return fetch(`https://api.github.com/repos/${post.items[i].full_name}/branches`);
 	return fetch(`https://api.github.com/users/${post.items[i].owner.login}/following`);
@@ -64,7 +68,11 @@ fetch(`https://api.github.com/search/repositories?q=${queried}`).then(function (
 		return Promise.reject(response);
 	}
 }).then(function (FData) {
-	document.getElementById('following').textContent = "Following: " +FData.length;
+	if (FData != null){
+	document.getElementById('following').textContent = "Following: " +FData.length;}
+	else{
+	document.getElementById('following').textContent = "Following: 0" ;	
+	}
 	console.log("Following:" +FData.length);
 	// return fetch('https://api.github.com/repos/bookcasey/harsh/branches');
 	// return fetch('https://api.github.com/users/bookcasey/following');
