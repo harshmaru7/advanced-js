@@ -21,7 +21,7 @@
 
 var queried = window. prompt("Enter your query: "); 
 
-for (var i = 0; i < 10; i++){
+for (var i = 0; i < 5; i++){
 
 fetch(`https://api.github.com/search/repositories?q=${queried}`).then(function (response) {
 	if (response.ok) {
@@ -64,6 +64,7 @@ fetch(`https://api.github.com/search/repositories?q=${queried}`).then(function (
 		return Promise.reject(response);
 	}
 }).then(function (FData) {
+	document.getElementById('following').textContent = "Following: " +FData.length;
 	console.log("Following:" +FData.length);
 	// return fetch('https://api.github.com/repos/bookcasey/harsh/branches');
 	// return fetch('https://api.github.com/users/bookcasey/following');
@@ -83,7 +84,9 @@ fetch(`https://api.github.com/search/repositories?q=${queried}`).then(function (
 	
 }).catch(function (error) {
 	console.warn(error);
-});	}
+});	
+
+}
 	</script>
 </body>
 </html>
