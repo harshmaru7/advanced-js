@@ -29,7 +29,7 @@
     function InsightData(data ){
 
          var mainContainer = document.getElementById("myData");
-     for (var i = 0; i < 5; i++) {
+     for (var i = 0; i < data.items.length; i++) {
             var div = document.createElement("div");
             div.innerHTML = 'name: ' + data.items[i].name;
             var divx = document.createElement("div");
@@ -40,16 +40,22 @@
             divpriv.innerHTML = "private: " + data.items[i].private;
             var divowner = document.createElement("div");
             divowner.innerHTML = 'login: ' + data.items[i].owner.login;
+            var divlicense = document.createElement("div");
+            if ( data.items[i].license != null){
+            divlicense.innerHTML = 'license: ' + data.items[i].license.name;}
+            else {
+                divlicense.innerHTML = 'license: ' + data.items[i].license;
+            }
             var linb = document.createElement("div");
             linb.innerHTML = '-------------------------------------';
 
-            fetch(`https://api.github.com/users/${data.items[i].owner.login}/following`)
+            fetch(`${data.items[i].owner.followers}`)
             .then(response => response.json())
             .then(datax => console.log(datax.length))
             
-            fetch(`https://api.github.com/users/${data.items[i].owner.login}/followers`)
-            .then(response => response.json())
-            .then(dataxy => console.log(dataxy.length));
+            // fetch(`https://api.github.com/users/${data.items[i].owner.login}/followers`)
+            // .then(response => response.json())
+            // .then(dataxy => console.log(dataxy.length));
 
 
             // fetch(`https://api.github.com/repos/${data.items[i].full_name}/branches`)
@@ -58,10 +64,11 @@
             // .then(datab => console.log(datab.length));
 
             mainContainer.appendChild(div);
-            mainContainer.appendChild(divx);
             mainContainer.appendChild(divy);
             mainContainer.appendChild(divpriv);
+            mainContainer.appendChild(divx);
             mainContainer.appendChild(divowner);
+            mainContainer.appendChild(divlicense);
             mainContainer.appendChild(linb);
      }
     // console.log(data.items[0]);
