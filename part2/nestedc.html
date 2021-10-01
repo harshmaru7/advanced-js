@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Nested Fetch Test</title>
+</head>
+<body>
+    <div id="myData"></div>
+	<div id="name" ></div>
+	<div id="score"></div>
+	<div id="fullname"></div>
+	<div id="priv"></div>
+	<div id="loginx"></div>
+	<div id="followers"></div>
+	<div id="following"></div>
+	<div id="branches"></div>
+	<script>
+
+var queried = window. prompt("Enter your query: "); 
+
+for (var i = 0; i < 10; i++){
+
+fetch(`https://api.github.com/search/repositories?q=${queried}`).then(function (response) {
+	if (response.ok) {
+		return response.json();
+	} else {
+		return Promise.reject(response);
+	}
+}).then(function (data) {
+	// Store the post data to a variable
+	post = data;
+	// Fetch another API
+	// return fetch('https://api.github.com/users/bookcasey/followers');
+	return fetch(`https://api.github.com/users/${post.items[i].owner.login}/followers`)
+}).then(function (response) {
+	if (response.ok) {
+		return response.json();
+	} else {
+		return Promise.reject(response);
+	}
+}).then(function (userData) {
+	document.getElementById('name').textContent = "name: "+post.items[i].name;
+	document.getElementById('score').textContent = "score: "+post.items[i].score;
+	document.getElementById('fullname').textContent = "full_name: " +post.items[i].full_name;
+	document.getElementById('priv').textContent = "private: " +post.items[i].private;
+	document.getElementById('loginx').textContent =  "login: " +post.items[i].owner.login;
+	document.getElementById('followers').textContent = "Followers: " +userData.length;
+	console.log("name: " +post.items[i].name,"\nscore: " +post.items[i].score,"\nfull name: " +post.items[0].full_name,"\nprivate: " + post.items[0].private,"\nlogin: " + post.items[0].owner.login,"\nFollowers: " +userData.length);
+	// if ( post.items[0].license != null){
+    //         console.log('license: ' + posts.items[0].license.name);
+    // if(){
+    //         console.log('license: ' + posts.items[0].license);
+    //     }
+	//  return fetch('https://api.github.com/users/bookcasey/following');
+	// return fetch(`https://api.github.com/repos/${post.items[i].full_name}/branches`);
+	return fetch(`https://api.github.com/users/${post.items[i].owner.login}/following`);
+}).then(function (response) {
+	if (response.ok) {
+		return response.json();
+	} else {
+		return Promise.reject(response);
+	}
+}).then(function (FData) {
+	console.log("Following:" +FData.length);
+	// return fetch('https://api.github.com/repos/bookcasey/harsh/branches');
+	// return fetch('https://api.github.com/users/bookcasey/following');
+	return fetch(`https://api.github.com/repos/${post.items[i].full_name}/branches`);
+	
+}).then(function (response) {
+	if (response.ok) {
+		return response.json();
+	} else {
+		return Promise.reject(response);
+	}
+}).then(function (BData) {
+	document.getElementById('branches').textContent = "Branches: " +BData.length;
+	console.log("Branches: " +BData.length);
+	// return fetch('https://api.github.com/repos/bookcasey/harsh/branches');
+	// return fetch('https://api.github.com/users/bookcasey/following');
+	
+}).catch(function (error) {
+	console.warn(error);
+});	}
+	</script>
+</body>
+</html>
+
+
+<!-- https://api.github.com/repos/bookcasey/harsh/branches -->
