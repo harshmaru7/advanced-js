@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JSON Test</title>
+</head>
+<body>
+    <div id="myData"></div>
+    <script>    
+    var queried = window. prompt("Enter your query: "); 
+
+    fetch(`https://api.github.com/search/repositories?q=${queried}`)
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+    InsightData(data);
+    })
+    .catch(function (err) {
+    console.log('error: ' + err);
+});
+    function InsightData(data){
+    post = data
+    console.log(data)
+    for (let j = 1; j < 6 ; j++) {
+    // console.log("name: " +post.items[j].name,"\nscore: " +post.items[j].score,"\nfull name: " +post.items[j].full_name,"\nprivate: " + post.items[j].private,"\nlogin: " + post.items[j].owner.login)https://api.github.com/users/${post.items[j].owner.login}/followers
+
+    fetch(`${post.items[j].owner.url}`).then(function (response) {
+	if (response.ok) {
+		return response.json();
+	} else {
+		return Promise.reject(response);
+	}
+}).then(function (FData) {
+	
+	Followers = FData.followers;
+    Following = FData.following;
+	//it was here
+    // console.log("Following: "+FingData.length)
+	var l = post.items[j].license; 
+	// if ( l === null){
+	// 	document.getElementById('license').textContent =  "license: null" ;     
+	// 	console.log('license: ' + post.items[i].license);
+	//  }
+    // else{
+	// 	document.getElementById('license').textContent =  "license: " +post.items[i].license.name;     
+	// 	console.log('license: ' + post.items[i].license.name);
+    //      }
+    // console.log("Reached here!")
+    
+	 
+	return fetch(`https://api.github.com/repos/${post.items[j].full_name}/branches`);
+}).then(function (response) {
+	if (response.ok) {
+		return response.json();
+	} else {
+		return Promise.reject(response);
+	}
+}).then(function (BData) {
+	BranchD = BData
+	// for(var j = 1; j <post.items.length; j++){
+        // var j = i;
+	// document.getElementById('name').textContent = "name: "+post.items[j].name;
+	// document.getElementById('score').textContent = "score: "+post.items[j].score;
+	// document.getElementById('fullname').textContent = "full_name: " +post.items[j].full_name;
+	// document.getElementById('priv').textContent = "private: " +post.items[j].private;
+	// document.getElementById('loginx').textContent =  "login: " +post.items[j].owner.login;
+	// document.getElementById('followers').textContent = "Followers: " +postx.length;
+	// console.log("\nFollowers: " +postx.length);
+	//console.log(post.items[j].name);
+	console.log("name: " +post.items[j].name,"\nscore: " +post.items[j].score,"\nfull name: " +post.items[j].full_name,"\nprivate: " + post.items[j].private,"\nlogin: " + post.items[j].owner.login)
+    console.log("Followers: "+Followers)
+    console.log("Following: "+Following)
+    console.log("Branches: " +BData.length); 
+
+	// document.getElementById('branches').textContent = "Branches: " +BData.length;
+	// console.log("Branches: " +BData.length);
+	
+}).catch(function (error) {
+	console.warn(error);
+});	
+    
+    }
+           
+
+            
+    }
+
+    </script>
+</body>
+</html>
+
+    <!-- // fetch('https://api.github.com/search/repositories?q=harsh')
+    // .then(function(response) { 
+    // return response.json()
+    // })
+    // .then(function(data) {   
+    // // do stuff with `data`, call second `fetch`
+    // console.log(data.item[0])
+    // return fetch(data.anotherUrl)
+    // })
+    // .then(function(response) { 
+    // return response.json(); 
+    // })
+    // .then(function(data) {
+    // // do stuff with `data`
+    // })
+    // .catch(function(error) { 
+    // console.log('Requestfailed', error) 
+    // }); -->
+
